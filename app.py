@@ -1,10 +1,12 @@
 from flask import Flask, request, jsonify
+from flask_cors import CORS   # import CORS
 import numpy as np
 from tensorflow.keras.models import load_model
 from tensorflow.keras.preprocessing import image
 import os
 
 app = Flask(__name__)
+CORS(app)
 
 # Load your trained model (update the path to your model)
 MODEL_PATH = './retinopathy_model.h5'
