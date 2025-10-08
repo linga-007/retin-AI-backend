@@ -40,5 +40,9 @@ def predict():
 
     return jsonify({'result': result})
 
+@app.route('/test', methods=['GET'])
+def test():
+    return "API is working!"
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
