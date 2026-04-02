@@ -1,4 +1,5 @@
 from cgi import print_directory
+import json
 import numpy as np
 import pandas as pd
 from pathlib import Path
@@ -11,6 +12,7 @@ from sklearn.metrics import confusion_matrix
 import tensorflow as tf
 from time import perf_counter
 import seaborn as sns
+from plot_metrics import save_training_metric_plots
 
 trainLabels = pd.read_csv("../Dataset/ds/train.csv")
 print(trainLabels.head())
@@ -210,19 +212,11 @@ history = model.fit(
     epochs=100)
 
 model.save("retinopathy_model.h5")
-    
-    
-pd.DataFrame(history.history)[['accuracy','val_accuracy']].plot()
-plt.title("Accuracy")
-plt.show()
 
-pd.DataFrame(history.history)[['loss','val_loss']].plot()
-plt.title("Loss")
-plt.show()
+with open("training_history.json", "w", encoding="utf-8") as f:
+    json.dump(history.history, f)
 
-pd.DataFrame(history.history)[['auc','val_auc']].plot()
-plt.title("auc")
-plt.show()
+save_training_metric_plots(history, "metric_images")
 
 #results = model.evaluate(test_images, verbose=0)
 
